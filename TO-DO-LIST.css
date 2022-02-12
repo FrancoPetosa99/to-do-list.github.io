@@ -451,7 +451,56 @@ body{
     }
 }
 @media (max-width: 800px) {
-    .container_columns{
+    .tittle_open_card{
+        font-size: 20px;
+    }
+}
+@media (max-width: 500px) {
+    .modal{
+        padding: 10px;
+        padding-top: 50px;
+    }
+    .btn_modal_close{
+        top: 10px;
+        right: 10px;
+    }
+    .input_add{
+        max-width: none;
+    }
+    .search{
+        max-width: 150px;
+    }
+    .description_input{
+        height: 220px;
+    }
+    .btn_accept{
+        max-width: none;
+    }
+    .card_opened{
+        max-width: none;
+        height: 520px;
+        gap: 5px;
+    }
+    .btn_close_opened_card{
+        height: 25px;
+        width: 25px;
+        font-size: 15px;
+    }
+    .container_description{
+        padding: 5px;
+    }
+    .btn_edit {
+        height: 30px;
+        font-size: 12px;
+        right: 25px;
+    }
+    .btn_accept_edit {
+        height: 30px;
+        font-size: 12px;
+        right: 25px;
+    }
+}
+    /*.container_columns{
         grid-template-columns: 1fr 1fr ;
         grid-template-rows: auto;
         gap: 10px;
@@ -494,4 +543,4 @@ body{
     .search,.btn_add{
         max-width: 100px;
     }
-}
+}*/
