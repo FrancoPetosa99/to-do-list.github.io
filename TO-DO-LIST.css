@@ -500,7 +500,8 @@ body{
         right: 25px;
     }
     .container_cards {
-        height: 70vh;
+        height: 65vh;
+        background-color: blue;
     }
 }
     /*.container_columns{
