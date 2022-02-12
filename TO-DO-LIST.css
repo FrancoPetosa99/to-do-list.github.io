@@ -499,6 +499,9 @@ body{
         font-size: 12px;
         right: 25px;
     }
+    .container_cards {
+        height: 75vh;
+    }
 }
     /*.container_columns{
         grid-template-columns: 1fr 1fr ;
