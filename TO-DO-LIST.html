@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TO-DO-LIST</title>
+        <link rel="stylesheet" href="TO-DO-LIST.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="modal hide">
+                <button class="btn_modal_close">X</button>
+                <input placeholder="Tittle..." name="tittle" class="input_add tittle_input" type="text" maxlength="25"/>
+                <textarea placeholder="Description..." name="description" class="input_add description_input" type="text"></textarea>
+                <select class="input_add state_input">
+                    <option value="completed">Completed</option>
+                    <option value="incompleted">Inompleted</option>
+                    <option value="productive">Productive</option>
+                    <option value="tested">Tested</option>
+                </select>
+                <button class="btn_accept">Accept</button>
+            </div>
+            <button class="btn_add">Add</button>
+            <input class="search" type="search" placeholder="Search..."/>
+            <div class="container_columns">
+                <div class="container_cards container_cards_completed">
+                    <div class="header">
+                        <p>Completed</p>  
+                    </div>
+                    <div id="completed" class="card_box completed_box">
+                        <h3 class="hide">Not found results</h3>
+                    </div>
+                    <div class="container_resumen"></div>
+                </div>
+                <div class="container_cards container_cards_incompleted">
+                    <div class="header">
+                        <p>Incompleted</p>  
+                    </div>
+                    <div id="incompleted" class="card_box incompleted_box">
+                        <h3 class="hide">Not found results</h3>
+                    </div>
+                    <div class="container_resumen"></div>
+                </div>
+                <div class="container_cards container_cards_productive">
+                    <div class="header">
+                        <p>Productive</p>  
+                    </div>
+                    <div id="productive" class="card_box productive_box">
+                        <h3 class="hide">Not found results</h3>
+                    </div>
+                    <div class="container_resumen"></div>
+                </div>
+                <div class="container_cards container_cards_tested">
+                    <div class="header">
+                        <p>Tested</p>  
+                    </div>
+                    <div id="tested" class="card_box tested_box">
+                        <h3 class="hide">Not found results</h3>
+                    </div>
+                    <div class="container_resumen"></div>
+                </div>
+                <div class="container_cards container_cards_urgent">
+                    <div class="header">
+                        <p>Urgent</p>  
+                    </div>
+                    <div id="urgent" class="card_box urgent_box">
+                        <h3 class="hide">Not found results</h3>
+                    </div>
+                    <div class="container_resumen"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="TO-DO-LIST.js"></script>
+</html>
