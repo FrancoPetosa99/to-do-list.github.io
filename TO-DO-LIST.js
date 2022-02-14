@@ -463,12 +463,12 @@ function render_columns(call_back){
 }
 function create_column(colum){
     const colum_div=document.createElement("div")
-    colum_div.setAttribute("class",`container_cards container_cards_${colum}`)
+    colum_div.setAttribute("class",`container_cards container_cards_${colum.toLocaleLowerCase()}`)
     colum_div.innerHTML=`
         <div class="header">
             <p>${colum}</p>  
         </div>
-        <div id="${colum}" class="card_box ${colum}_box">
+        <div id="${colum.toLocaleLowerCase()}" class="card_box ${colum}_box">
             <h3 class="hide">Not found results</h3>
         </div>
         <div class="container_resumen"></div>
@@ -481,7 +481,7 @@ function create_column(colum){
         const id=e.dataTransfer.getData("id")
         const card=document.getElementById(id)
         task=task_list.find(element=>element.id==id)
-        const validates_drag_zones=colum_list
+        const validates_drag_zones=colum_list.map(element=>element.toLocaleLowerCase())
         const drag_zone=e.target.id
         is_validate_zone=validates_drag_zones.some(zone=>zone==drag_zone)
         if(task.state!=drag_zone && is_validate_zone){
