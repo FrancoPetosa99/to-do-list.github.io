@@ -52,26 +52,42 @@ body{
     width: 100%;
     height: auto;
     display: grid;
-    grid-template-columns: 280px 280px 280px 280px 280px;
+    grid-template-columns: repeat(5,260px) repeat(10,auto);
     justify-items: center;
     overflow: hidden;
     padding: 20px;
     gap: 25px;
     overflow-x: scroll;
 }
-.container_cards_completed,.container_cards_incompleted,.container_cards_productive,.container_cards_tested,.container_cards_urgent{
+.container_cards{
     height: 85vh;
-    width: 100%;
-    max-width: 300px;
+    width: 260px;
     background-color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
-    background-color: rgb(61, 136, 61);
     padding: 0px 10px 10px 10px;
     box-shadow: black 0px 0px 10px 2px;
     background-color: crimson;
+}
+.add_column{
+    height: 85vh;
+    width: 260px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(0,0,0,.4);
+    gap: 12px;
+    cursor: pointer;
+}
+.add_column:hover{
+    background-color: rgba(0,0,0,.6);
+}
+.input_colum_name{
+    width: 200px;
 }
 .header{
     width: 100%;
@@ -230,7 +246,30 @@ body{
 .btn_modal_close:hover{
     color: crimson;
     background-color: white;
-    border: solid rgb(61, 136, 61) 1px;
+    border: solid crimson 1px;
+    box-shadow: black 0px 0px 10px 2px;
+}
+.btn_modal_new_colum_close{
+    height: 30px;
+    width: 30px;
+    font-size: 15px;
+    color: white;
+    background-color: crimson;
+    border: solid crimson 1px;
+    border-radius: 50%;
+    padding: 4px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.btn_modal_new_colum_close:hover{
+    color: crimson;
+    background-color: white;
+    border: solid crimson 1px;
     box-shadow: black 0px 0px 10px 2px;
 }
 .input_add{
@@ -253,6 +292,22 @@ body{
     animation: fall_effect 4s ease-in-out forwards;
 }
 .btn_accept:hover{
+    color: crimson;
+    background-color: white;
+    box-shadow: black 0px 0px 10px 2px;
+}
+.btn_modal_new_colum_accept{
+    width: 100%;
+    max-width: 200px;
+    font-size: 20px;
+    color: white;
+    background-color: crimson;
+    border: solid 1px transparent;
+    padding: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.btn_modal_new_colum_accept:hover{
     color: crimson;
     background-color: white;
     box-shadow: black 0px 0px 10px 2px;
@@ -424,6 +479,23 @@ body{
     cursor: pointer;
     animation: show_up 3s ease-in-out forwards ;
 }
+.input_container_new_colum{
+    position: relative;
+    height: 200px;
+    width: 100%;
+    max-width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+}
+.input_new_colum{
+    width: 100%;
+    max-width: 200px;
+    font-size: 18px;
+    padding: 5px;
+}
 .invisible{opacity: 0%;}
 .hide{display: none;}
 .no_events{cursor: not-allowed;pointer-events: none;}
@@ -451,59 +523,7 @@ body{
     }
 }
 @media (max-width: 800px) {
-    .tittle_open_card{
-        font-size: 20px;
-    }
-}
-@media (max-width: 500px) {
-    .modal{
-        padding: 10px;
-        padding-top: 50px;
-    }
-    .btn_modal_close{
-        top: 10px;
-        right: 10px;
-    }
-    .input_add{
-        max-width: none;
-    }
-    .search{
-        max-width: 150px;
-    }
-    .description_input{
-        height: 220px;
-    }
-    .btn_accept{
-        max-width: none;
-    }
-    .card_opened{
-        max-width: none;
-        height: 520px;
-        gap: 5px;
-    }
-    .btn_close_opened_card{
-        height: 25px;
-        width: 25px;
-        font-size: 15px;
-    }
-    .container_description{
-        padding: 5px;
-    }
-    .btn_edit {
-        height: 30px;
-        font-size: 12px;
-        right: 25px;
-    }
-    .btn_accept_edit {
-        height: 30px;
-        font-size: 12px;
-        right: 25px;
-    }
-    .container_cards {
-        height: 70vh;
-    }
-}
-    /*.container_columns{
+    .container_columns{
         grid-template-columns: 1fr 1fr ;
         grid-template-rows: auto;
         gap: 10px;
@@ -546,4 +566,4 @@ body{
     .search,.btn_add{
         max-width: 100px;
     }
-}*/
+}

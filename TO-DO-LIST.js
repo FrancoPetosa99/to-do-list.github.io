@@ -127,14 +127,10 @@ const task_list=[
         id:18
     }
 ]
-
+const colum_list=["completed","incompleted","productive","tested","urgent"]
 let last_id=task_list.length
 
-const completed_box=document.querySelector(".completed_box")
-const incompleted_box=document.querySelector(".incompleted_box")
-const productive_box=document.querySelector(".productive_box")
-const tested_box=document.querySelector(".tested_box")
-const urgent_box=document.querySelector(".urgent_box")
+
 const btn_add=document.querySelector(".btn_add")
 const modal=document.querySelector(".modal")
 const btn_modal_close=document.querySelector(".btn_modal_close")
@@ -142,10 +138,58 @@ const btn_accept=document.querySelector(".btn_accept")
 const tittle_input=document.querySelector(".tittle_input")
 const description_input=document.querySelector(".description_input")
 const state_input=document.querySelector(".state_input")
-const container_cards=document.querySelectorAll(".container_cards")
-const card_box=document.querySelectorAll(".card_box")
+var   container_cards=document.querySelectorAll(".container_cards")
+var   card_box=document.querySelectorAll(".card_box")
 const container=document.querySelector(".container")
 const search=document.querySelector(".search")
+const container_columns=document.querySelector(".container_columns")
+const add_column=document.querySelector(".add_column")
+
+add_column.addEventListener("click",()=>{
+    const modal_new_colum=document.createElement("div")
+    modal_new_colum.setAttribute("class","modal")
+    const input_container=document.createElement("div")
+    input_container.setAttribute("class","input_container_new_colum")
+    input_container.innerHTML=`
+        <button class="btn_modal_new_colum_close">X</button>
+        <input placeholder="Column Name..." class="input_new_colum" type="text" maxlength="20"/>
+        <button class="btn_modal_new_colum_accept">Confirm</button>
+    `
+    modal_new_colum.appendChild(input_container)
+    container.appendChild(modal_new_colum)
+    const btn_modal_new_colum_close=document.querySelector(".btn_modal_new_colum_close")
+    btn_modal_new_colum_close.addEventListener("click",()=>{
+        modal_new_colum.remove()
+    })
+    const input_new_colum=document.querySelector(".input_new_colum")
+    const btn_modal_new_colum_accept=document.querySelector(".btn_modal_new_colum_accept")
+    btn_modal_new_colum_accept.addEventListener("click",()=>{
+        modal_new_colum.classList.add("hide")
+        adding_column(input_new_colum.value)
+    })
+})
+
+function adding_column(new_colum_name){
+    colum_list.push(new_colum_name.toLocaleLowerCase())
+    let new_column=create_column(new_colum_name)
+    container_columns.insertBefore(new_column,container_columns.children[1])
+    card_box=document.querySelectorAll(".card_box")
+    update_options(new_colum_name)
+}
+
+function  update_options(new_colum_name){
+    const inputs_move=document.querySelectorAll(".input_move")
+    inputs_move.forEach(input=>{
+        const option=document.createElement("option")
+        option.setAttribute("value",`${new_colum_name}`)
+        option.textContent=`${new_colum_name}`
+        input.appendChild(option)
+    })
+    const option=document.createElement("option")
+    option.setAttribute("value",`${new_colum_name}`)
+    option.textContent=`${new_colum_name}`
+    state_input.appendChild(option)
+}
 
 search.addEventListener("input",(e)=>{
     const filter_value=e.target.value.toLowerCase()
@@ -167,35 +211,6 @@ function check_every_children(box_cards){
     const child_list=box_cards
     return [...child_list].every(child=>child.classList.contains("hide")) 
 }
-
-container_cards.forEach(container=>{
-    container.addEventListener("dragover",(e)=>{//TIENE QUE ESTAR DEFINIDO ESTE LISTENER PARA QUE EL LISTENER DE DROP FUNCIONE
-        // PREVENT DEFAULT TO ALLOW DROP
-        e.preventDefault();
-    },false)
-    container.addEventListener("drop",(e)=>{
-        const id=e.dataTransfer.getData("id")
-        const card=document.getElementById(id)
-        const task=task_list.find(element=>element.id==id)
-        const validates_drag_zones=["completed","incompleted","productive","tested","urgent"]
-        const drag_zone=e.target.id
-        is_validate_zone=validates_drag_zones.some(zone=>zone==drag_zone)
-        if(task.state!=drag_zone && is_validate_zone){
-            e.target.style.backgroundColor="crimson"
-            move_card(card,task,drag_zone,colum_state)
-        }
-    },false)
-    container.addEventListener("dragenter",(e)=>{
-        if(e.target.classList.contains("card_box")){
-            e.target.style.backgroundColor="rgb(182, 6, 41)"
-        }
-    })
-    container.addEventListener("dragleave",(e)=>{
-        if(e.target.classList.contains("card_box")){
-            e.target.style.backgroundColor="crimson"
-        }
-    })
-})
 
 btn_add.addEventListener("click",()=>{
     modal.classList.remove("hide")
@@ -238,30 +253,17 @@ function warning_message(input_1,input_2){
     },4000)
 }
 
-function render_cards(call_back) {
+function render_cards(call_back){
+    container_cards=document.querySelectorAll(".container_cards") //REFERENCIA DE LAS COLUMNAS
+    card_box=document.querySelectorAll(".card_box") //REFEENCIA DE LOS CONTENEDORES DE LAS CARDS
     task_list.forEach(task=>{
         const card=create_card(task)
         const state=task.state
-        switch (state) {
-            case "completed":
-                completed_box.appendChild(card)
-            break;
-            case "incompleted":
-                incompleted_box.appendChild(card)
-            break;
-            case "productive":
-                productive_box.appendChild(card)
-            break;
-            case "tested":
-                tested_box.appendChild(card)
-            break;
-            case "urgent":
-                urgent_box.appendChild(card)
-            break;
-            default:
-                //SERIA UN UNICO CASO FALSE
-            break;
-        }
+        card_box.forEach(box=>{ //INDICO EN CUAL BOX AGREGAR LA CARTA MOVIDA DE MANERA DINAMICA
+            if(state==box.id){
+                box.appendChild(card)
+            }
+        })
     })
     call_back()
 }
@@ -278,11 +280,6 @@ function create_card(task){
         </svg>
         <select class="input_move">
             <option value="undefined">Move card</option>
-            <option value="completed">Completed</option>
-            <option value="incompleted">Incompleted</option>
-            <option value="productive">Productive</option>
-            <option value="tested">Tested</option>
-            <option value="urgent">Urgent</option>
         </select>
     `
     const btn_delete_card=card.querySelector(".btn_delete_card")
@@ -293,6 +290,12 @@ function create_card(task){
         },450)
     })
     const input_move=card.querySelector(".input_move")
+    colum_list.forEach(colum=>{ //DE MANERA DINAMICA AGREGO OPCIONES AL SELECT
+        const option=document.createElement("option")
+        option.setAttribute("value",`${colum}`)
+        option.textContent=`${colum}`
+        input_move.appendChild(option)
+    })
     input_move.addEventListener("input",()=>{
         let new_sate=input_move.value
         if(new_sate!=task.state && new_sate!="undefined"){
@@ -338,49 +341,21 @@ function add_task(call_back) {
     last_id=last_id+1
     task_list.push(new_task)
     const new_card=create_card(new_task)
-    switch (new_task.state) {
-        case "completed":
-            completed_box.appendChild(new_card)
-        break;
-        case "incompleted":
-            incompleted_box.appendChild(new_card)
-        break;
-        case "productive":
-            productive_box.appendChild(new_card)
-        break;
-        case "tested":
-            tested_box.appendChild(new_card)
-        break;
-        default:
-            //SERIA UN UNICO CASO FALSE
-            break;
-    }
+    card_box.forEach(box=>{ //INDICO EN CUAL BOX AGREGAR LA CARTA MOVIDA DE MANERA DINAMICA
+        if(new_task.state==box.id){
+            box.appendChild(new_card)
+        }
+    })
     call_back()
 }
 
 function move_card(card,task,new_state,call_back){
     task.state=new_state
-    const card_moved=card
-    switch (new_state){
-        case "completed":
-            completed_box.appendChild(card_moved)
-        break;
-        case "incompleted":
-            incompleted_box.appendChild(card_moved)
-        break;
-        case "productive":
-            productive_box.appendChild(card_moved)
-        break;
-        case "tested":
-            tested_box.appendChild(card_moved)
-        break;
-        case "urgent":
-            urgent_box.appendChild(card_moved)
-        break;
-        default:
-            //SERIA UN UNICO CASO FALSE
-            break;
-    }
+    card_box.forEach(box=>{ //INDICO EN CUAL BOX AGREGAR LA CARTA MOVIDA DE MANERA DINAMICA
+        if(new_state==box.id){
+            box.appendChild(card)
+        }
+    })
     call_back()
 }
 
@@ -479,8 +454,55 @@ function add_selection(p){
     document.getSelection().removeAllRanges()
     document.getSelection().addRange(range)
 }
-
-render_cards(colum_state) //CUANDO SE TERMINA DE EJECUTAR RENDER_CARDS RECIEN ENTONCES EJECUTA LA FUNCIÓN PASADA COMO CALLBACK COLUMN_STATE
+function render_columns(call_back){
+    colum_list.forEach(colum=>{
+        let created_colum=create_column(colum)
+        container_columns.appendChild(created_colum)
+    })
+    call_back(colum_state)
+}
+function create_column(colum){
+    const colum_div=document.createElement("div")
+    colum_div.setAttribute("class",`container_cards container_cards_${colum}`)
+    colum_div.innerHTML=`
+        <div class="header">
+            <p>${colum}</p>  
+        </div>
+        <div id="${colum}" class="card_box ${colum}_box">
+            <h3 class="hide">Not found results</h3>
+        </div>
+        <div class="container_resumen"></div>
+    `
+    colum_div.addEventListener("dragover",(e)=>{//TIENE QUE ESTAR DEFINIDO ESTE LISTENER PARA QUE EL LISTENER DE DROP FUNCIONE
+        // PREVENT DEFAULT TO ALLOW DROP
+        e.preventDefault();
+    },false)
+    colum_div.addEventListener("drop",(e)=>{
+        const id=e.dataTransfer.getData("id")
+        const card=document.getElementById(id)
+        task=task_list.find(element=>element.id==id)
+        const validates_drag_zones=colum_list
+        const drag_zone=e.target.id
+        is_validate_zone=validates_drag_zones.some(zone=>zone==drag_zone)
+        if(task.state!=drag_zone && is_validate_zone){
+            e.target.style.backgroundColor="crimson"
+            move_card(card,task,drag_zone,colum_state)
+        }
+    },false)
+    colum_div.addEventListener("dragenter",(e)=>{
+        if(e.target.classList.contains("card_box")){
+            e.target.style.backgroundColor="rgb(182, 6, 41)"
+        }
+    })
+    colum_div.addEventListener("dragleave",(e)=>{
+        if(e.target.classList.contains("card_box")){
+            e.target.style.backgroundColor="crimson"
+        }
+    })
+    return colum_div
+}
+render_columns(render_cards)
+ //CUANDO SE TERMINA DE EJECUTAR RENDER_CARDS RECIEN ENTONCES EJECUTA LA FUNCIÓN PASADA COMO CALLBACK COLUMN_STATE
 
 
 
