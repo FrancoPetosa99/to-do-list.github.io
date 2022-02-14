@@ -298,7 +298,7 @@ function create_card(task){
         input_move.appendChild(option)
     })
     input_move.addEventListener("input",()=>{
-        let new_sate=input_move.value
+        let new_sate=input_move.value.toLocaleLowerCase()
         if(new_sate!=task.state && new_sate!="undefined"){
             move_card(card,task,new_sate,colum_state)
         }
