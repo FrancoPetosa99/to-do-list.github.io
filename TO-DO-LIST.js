@@ -164,7 +164,7 @@ add_column.addEventListener("click",()=>{
     const input_new_colum=document.querySelector(".input_new_colum")
     const btn_modal_new_colum_accept=document.querySelector(".btn_modal_new_colum_accept")
     btn_modal_new_colum_accept.addEventListener("click",()=>{
-        modal_new_colum.classList.add("hide")
+        modal_new_colum.remove()
         adding_column(input_new_colum.value)
     })
 })
@@ -175,6 +175,7 @@ function adding_column(new_colum_name){
     container_columns.insertBefore(new_column,container_columns.children[1])
     card_box=document.querySelectorAll(".card_box")
     update_options(new_colum_name)
+    colum_state()
 }
 
 function  update_options(new_colum_name){
@@ -428,7 +429,8 @@ function delete_card(card,task,call_back) {
 }
 
 function colum_state(){
-    container_cards.forEach((container,i)=>{
+    const container_cards=document.querySelectorAll(".container_cards")
+    container_cards.forEach(container=>{
         const container_resumen=container.querySelector(".container_resumen")
         const box=container.querySelector(".card_box")
         const child_list=box.children
