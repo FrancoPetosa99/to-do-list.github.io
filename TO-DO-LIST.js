@@ -174,7 +174,7 @@ function adding_column(new_colum_name){
     let new_column=create_column(new_colum_name.toLocaleLowerCase())
     container_columns.insertBefore(new_column,container_columns.children[1])
     card_box=document.querySelectorAll(".card_box")
-    add_option(new_colum_name)
+    add_option(new_colum_name.toLowerCase())
     colum_state()
 }
 
