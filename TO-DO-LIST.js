@@ -163,6 +163,7 @@ add_column.addEventListener("click",()=>{
     })
     const input_new_colum=document.querySelector(".input_new_colum")
     const btn_modal_new_colum_accept=document.querySelector(".btn_modal_new_colum_accept")
+    
     btn_modal_new_colum_accept.addEventListener("click",()=>{
         const validator=!colum_list.some(element=>element.toLowerCase()==input_new_colum.value.toLowerCase())
         if(validator){
