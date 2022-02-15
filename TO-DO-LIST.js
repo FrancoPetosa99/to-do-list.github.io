@@ -127,7 +127,7 @@ const task_list=[
         id:18
     }
 ]
-const colum_list=["completed","incompleted","productive","tested","urgent"]
+var colum_list=["completed","incompleted","productive","tested","urgent"]
 let last_id=task_list.length
 
 
@@ -171,25 +171,38 @@ add_column.addEventListener("click",()=>{
 
 function adding_column(new_colum_name){
     colum_list.push(new_colum_name.toLocaleLowerCase())
-    let new_column=create_column(new_colum_name)
+    let new_column=create_column(new_colum_name.toLocaleLowerCase())
     container_columns.insertBefore(new_column,container_columns.children[1])
     card_box=document.querySelectorAll(".card_box")
-    update_options(new_colum_name)
+    add_option(new_colum_name)
     colum_state()
 }
 
-function  update_options(new_colum_name){
+function  add_option(option_to_add){
     const inputs_move=document.querySelectorAll(".input_move")
     inputs_move.forEach(input=>{
         const option=document.createElement("option")
-        option.setAttribute("value",`${new_colum_name}`)
-        option.textContent=`${new_colum_name}`
+        option.setAttribute("value",`${option_to_add}`)
+        option.setAttribute("id",`${option_to_add}`)
+        option.textContent=`${option_to_add}`
         input.appendChild(option)
     })
     const option=document.createElement("option")
-    option.setAttribute("value",`${new_colum_name}`)
-    option.textContent=`${new_colum_name}`
+    option.setAttribute("value",`${option_to_add}`)
+    option.textContent=`${option_to_add}`
     state_input.appendChild(option)
+}
+
+function delete_option(option){
+    const inputs_move=document.querySelectorAll(".input_move")
+    inputs_move.forEach(input=>{
+        const options_list=[...input.children]
+        const option_to_delete=options_list.find(element=>element.id==option)
+        input.removeChild(option_to_delete)
+    })
+    const options=[...state_input.children]
+    option_to_delete=options.find(element=>element.textContent.toLowerCase()==option.toLowerCase())
+    state_input.removeChild(option_to_delete)
 }
 
 search.addEventListener("input",(e)=>{
@@ -294,6 +307,7 @@ function create_card(task){
     colum_list.forEach(colum=>{ //DE MANERA DINAMICA AGREGO OPCIONES AL SELECT
         const option=document.createElement("option")
         option.setAttribute("value",`${colum}`)
+        option.setAttribute("id",colum)
         option.textContent=`${colum}`
         input_move.appendChild(option)
     })
@@ -468,7 +482,8 @@ function create_column(colum){
     colum_div.setAttribute("class",`container_cards container_cards_${colum.toLocaleLowerCase()}`)
     colum_div.innerHTML=`
         <div class="header">
-            <p>${colum}</p>  
+            <p>${colum}</p>
+            <button class="btn_delete_column">X</button>  
         </div>
         <div id="${colum.toLocaleLowerCase()}" class="card_box ${colum}_box">
             <h3 class="hide">Not found results</h3>
@@ -501,8 +516,25 @@ function create_column(colum){
             e.target.style.backgroundColor="crimson"
         }
     })
+    const btn_delete_column=colum_div.querySelector(".btn_delete_column")
+    btn_delete_column.addEventListener("click",()=>{
+        delete_column(colum_div,colum)
+    })
     return colum_div
 }
+
+function delete_column(column,colum_name){
+    delete_option(colum_name)
+    const tasks_to_delete=task_list.filter(element=>element.state==colum_name) //ELIMINO LAS TAREAS QUE ESTABAN EN EL COLUMNA
+    tasks_to_delete.forEach(task=>{
+        const id=task.id
+        const card=document.getElementById(id)
+        delete_card(card,task,colum_state)
+    })
+    column.remove() //ELIMINO LA COLUMNA COMO NODO
+    colum_list=colum_list.filter(element=>element!=colum_name) //ELIMINO DEL ARRAY LA COLUMNA
+}
+
 render_columns(render_cards)
  //CUANDO SE TERMINA DE EJECUTAR RENDER_CARDS RECIEN ENTONCES EJECUTA LA FUNCIÓN PASADA COMO CALLBACK COLUMN_STATE
 

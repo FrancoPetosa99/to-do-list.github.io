@@ -99,10 +99,13 @@ body{
     text-align: center;
     padding-top: 10px;
     cursor: pointer;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 .header>p{
     height: 25px;
-    width: 100%;
+    width: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -499,6 +502,19 @@ body{
     max-width: 200px;
     font-size: 18px;
     padding: 5px;
+}
+.btn_delete_column{
+    height: 22px;
+    width: 22px;
+    font-size: 12px;
+    color: crimson;
+    background-color: white;
+    border: solid white 1px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 .invisible{opacity: 0%;}
 .hide{display: none;}
