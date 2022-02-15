@@ -571,7 +571,7 @@ body{
 @media (max-width: 400px) {
     .modal{
         padding: 15px;
-        padding-top: 50px;
+        padding-top: 60px;
     }
     .btn_add{
         width: 80px;
