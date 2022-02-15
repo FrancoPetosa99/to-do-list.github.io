@@ -164,13 +164,17 @@ add_column.addEventListener("click",()=>{
     const input_new_colum=document.querySelector(".input_new_colum")
     const btn_modal_new_colum_accept=document.querySelector(".btn_modal_new_colum_accept")
     btn_modal_new_colum_accept.addEventListener("click",()=>{
-        const validator=!colum_list.some(element=>element.toLowerCase()==input_new_colum.value.toLowerCase())
+        const validator=colum_list.some(element=>element.toLowerCase()==input_new_colum.value.toLowerCase())
+        let message
         if(validator){
+            message=`La columna ${input_new_colum.value} ya existe`
+            warning_message(message,modal_new_colum)
+        }else if(input_new_colum.value.length==0){
+            message="El campo es obligatorio"
+            warning_message(message,modal_new_colum)
+        }else if(!validator){
             modal_new_colum.remove()
             adding_column(input_new_colum.value)
-        }else{
-            let message=`La columna ${input_new_colum.value} ya existe`
-            warning_message(message,modal_new_colum)
         }
     })
 })
