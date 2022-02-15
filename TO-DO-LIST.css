@@ -571,6 +571,7 @@ body{
 @media (max-width: 400px) {
     .modal{
         padding: 15px;
+        padding-top: 50px;
     }
     .btn_add{
         width: 80px;
@@ -600,5 +601,36 @@ body{
     }
     .description_input{
         height: 250px;
+        width: 80%;
+        font-size: 12px;
+    }
+    .tittle_input{
+        width: 80%;
+        font-size: 12px;
+    }
+    .state_input{
+        width: 80%;
+        font-size: 12px;
+    }
+    .btn_accept{
+        width: 80%;
+        font-size: 12px;
+        max-width: none;
+    }
+    .tool_tip{
+        width: 100%;
+        max-width: none;
+        height: 35px;
+        background-color: rgb(211, 101, 101);
+        position: absolute;
+        bottom: 10%;
+        color: white;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        padding-left: 10px;
+        border-radius: 0px;
+        right: 0px;
+        font-size: 15px;
     }
 }
