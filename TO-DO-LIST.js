@@ -164,8 +164,14 @@ add_column.addEventListener("click",()=>{
     const input_new_colum=document.querySelector(".input_new_colum")
     const btn_modal_new_colum_accept=document.querySelector(".btn_modal_new_colum_accept")
     btn_modal_new_colum_accept.addEventListener("click",()=>{
-        modal_new_colum.remove()
-        adding_column(input_new_colum.value)
+        const validator=!colum_list.some(element=>element==input_new_colum.value)
+        if(validator){
+            modal_new_colum.remove()
+            adding_column(input_new_colum.value)
+        }else{
+            let message=`La columna ${input_new_colum.value} ya existe`
+            warning_message(message,modal_new_colum)
+        }
     })
 })
 
@@ -179,6 +185,7 @@ function adding_column(new_colum_name){
 }
 
 function  add_option(option_to_add){
+    const validator=colum_list.some(element=>element==option_to_add)
     const inputs_move=document.querySelectorAll(".input_move")
     inputs_move.forEach(input=>{
         const option=document.createElement("option")
@@ -241,24 +248,29 @@ btn_accept.addEventListener("click",()=>{
 })
 
 function validation(){
+    let message
     const tittle_aproved= tittle_input.value.length>0?true:false
     const description_aproved= description_input.value.length>0?true:false
     if(tittle_aproved&&description_aproved){
         return true
-    }else {
-        warning_message(tittle_input,description_input)
+    }else{
+        if(tittle_aproved){
+            message="La descripción es campo obligatorio"
+        }else if(description_aproved){
+            message="El titulo es campo obligatorio"
+        }else if(!tittle_aproved&&!description_aproved){
+            message="Ambos campos son obligatorios"
+        }
+        const modal=document.querySelector(".modal")
+        warning_message(message,modal)
         return false
     }
 }
 
-function warning_message(input_1,input_2){
+function warning_message(message,modal){
     const tool_tip=document.createElement("p")
     tool_tip.setAttribute("class","tool_tip")
-    if(input_1.value.length==0&&input_2.value.length==0){
-        tool_tip.innerText=`Ambos campos son obligatorios`
-    }else{
-        tool_tip.innerText=input_1.value.length>0?`La descripción es campo obligatorio`:`El titulo es campo obligatorio`
-    }
+    tool_tip.innerText=message
     modal.appendChild(tool_tip)
     btn_accept.classList.add("no_events")
     setTimeout(()=>{
