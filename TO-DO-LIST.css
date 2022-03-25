@@ -473,15 +473,17 @@ body{
     height: 35px;
     background-color: rgb(211, 101, 101);
     position: absolute;
-    bottom: 10%;
     color: white;
     display: flex;
     justify-content: start;
     align-items: center;
+    gap: 10px;
     padding-left: 10px;
     border-radius: 20px;
+    bottom: 20px;
     right: 0px;
     cursor: pointer;
+    z-index: 99;
     animation: show_up 3s ease-in-out forwards ;
 }
 .input_container_new_colum{
